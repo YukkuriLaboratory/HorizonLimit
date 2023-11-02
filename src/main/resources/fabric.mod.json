@@ -1,0 +1,30 @@
+{
+  "schemaVersion": 1,
+  "id": "horizonlimit",
+  "version": "${version}",
+  "name": "HorizonLimit",
+  "description": "",
+  "authors": [],
+  "contact": {
+    "repo": "https://github.com/YukkuriLaboratory/HorizonLimit"
+  },
+  "license": "MIT",
+  "icon": "assets/horizonlimit/icon.png",
+  "environment": "*",
+  "entrypoints": {
+    "client": [
+      "net.yukulab.horizonlimit.client.HorizonLimitClient"
+    ],
+    "main": [
+      "net.yukulab.horizonlimit.HorizonLimit"
+    ]
+  },
+  "mixins": [
+    "horizonlimit.mixins.json"
+  ],
+  "depends": {
+    "fabricloader": ">=${loader_version}",
+    "fabric": "*",
+    "minecraft": "${minecraft_version}"
+  }
+}
