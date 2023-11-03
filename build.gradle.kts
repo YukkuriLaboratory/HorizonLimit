@@ -15,7 +15,17 @@ repositories {
     // You should only use this when depending on other mods because
     // Loom adds the essential maven repositories to download Minecraft and libraries from automatically.
     // See https://docs.gradle.org/current/userguide/declaring_repositories.html
-    // for more information about repositories.
+    // for more information about repositories. repositories {
+    maven { url = uri("https://maven.shedaniel.me/") }
+    maven { url = uri("https://maven.terraformersmc.com/releases/") }
+    exclusiveContent {
+        forRepository {
+            maven("https://jitpack.io")
+        }
+        filter {
+            includeModule("com.github.Marcono1234", "gson-record-type-adapter-factory")
+        }
+    }
 }
 
 val yarn_mappings: String by project
@@ -29,6 +39,13 @@ dependencies {
 
     // Fabric API. This is technically optional, but you probably want it anyway.
     modImplementation("net.fabricmc.fabric-api:fabric-api:$fabric_version")
+
+    // Modrinth maven -> modImplementation("maven.modrinth:<modid>:<version-number>")
+    modApi("com.terraformersmc:modmenu:8.0.0")
+    modApi( "me.shedaniel.cloth:cloth-config-fabric:12.0.109") {
+        exclude("net.fabricmc.fabric-api")
+    }
+    modApi(include("com.github.Marcono1234:gson-record-type-adapter-factory:0.3.0")!!)
 }
 
 tasks.processResources {
@@ -39,8 +56,8 @@ tasks.processResources {
 
     filesMatching("fabric.mod.json") {
         expand("version" to project.version,
-                "minecraft_version" to minecraft_version,
-                "loader_version" to loader_version)
+            "minecraft_version" to minecraft_version,
+            "loader_version" to loader_version)
     }
 }
 
@@ -52,7 +69,7 @@ tasks.withType<JavaCompile>().configureEach {
     // If Javadoc is generated, this must be specified in that task too.
     options.encoding = "UTF-8"
     if (targetJavaVersion >= 10 || JavaVersion.current().isJava10Compatible()) {
-       options.release.set(targetJavaVersion)
+        options.release.set(targetJavaVersion)
     }
 }
 
