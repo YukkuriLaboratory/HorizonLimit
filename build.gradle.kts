@@ -2,6 +2,7 @@ plugins {
     id("fabric-loom") version "1.4-SNAPSHOT"
     id("maven-publish")
     id("com.diffplug.spotless") version "6.22.0"
+    java
 }
 
 val mod_version: String by project
@@ -32,6 +33,9 @@ dependencies {
 
     // Modrinth maven -> modImplementation("maven.modrinth:<modid>:<version-number>")
     implementation("com.fasterxml.jackson.core", "jackson-databind", "2.15.3")
+
+    testImplementation(platform("org.junit:junit-bom:5.10.0"))
+    testImplementation("org.junit.jupiter:junit-jupiter")
 }
 
 tasks.processResources {
@@ -76,6 +80,10 @@ tasks.jar {
     from("LICENSE") {
         rename { "${it}_${archives_base_name}"}
     }
+}
+
+tasks.test {
+    useJUnitPlatform()
 }
 
 spotless {
