@@ -16,16 +16,6 @@ repositories {
     // Loom adds the essential maven repositories to download Minecraft and libraries from automatically.
     // See https://docs.gradle.org/current/userguide/declaring_repositories.html
     // for more information about repositories. repositories {
-    maven { url = uri("https://maven.shedaniel.me/") }
-    maven { url = uri("https://maven.terraformersmc.com/releases/") }
-    exclusiveContent {
-        forRepository {
-            maven("https://jitpack.io")
-        }
-        filter {
-            includeModule("com.github.Marcono1234", "gson-record-type-adapter-factory")
-        }
-    }
 }
 
 val yarn_mappings: String by project
@@ -41,11 +31,7 @@ dependencies {
     modImplementation("net.fabricmc.fabric-api:fabric-api:$fabric_version")
 
     // Modrinth maven -> modImplementation("maven.modrinth:<modid>:<version-number>")
-    modApi("com.terraformersmc:modmenu:8.0.0")
-    modApi( "me.shedaniel.cloth:cloth-config-fabric:12.0.109") {
-        exclude("net.fabricmc.fabric-api")
-    }
-    modApi(include("com.github.Marcono1234:gson-record-type-adapter-factory:0.3.0")!!)
+    implementation("com.fasterxml.jackson.core", "jackson-databind", "2.15.3")
 }
 
 tasks.processResources {
