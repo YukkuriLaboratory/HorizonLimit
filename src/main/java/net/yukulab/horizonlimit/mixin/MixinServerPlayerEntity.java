@@ -23,8 +23,7 @@ public class MixinServerPlayerEntity {
         // これがnullになることはない
         var config = player.getServer().horizonlimit$getServerConfig();
         var worldName = world.getDimensionKey().getRegistry().getNamespace();
-        var playerMap = config.limit()
-                .computeIfAbsent(worldName, (key) -> new HashMap<>());
+        var playerMap = config.limit().computeIfAbsent(worldName, (key) -> new HashMap<>());
         var limit = playerMap.get(player.getUuid());
         if (limit == null) {
             return;
