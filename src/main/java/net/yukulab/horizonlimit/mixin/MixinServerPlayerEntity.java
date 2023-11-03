@@ -2,7 +2,7 @@ package net.yukulab.horizonlimit.mixin;
 
 import java.util.HashMap;
 import net.minecraft.server.network.ServerPlayerEntity;
-import net.yukulab.horizonlimit.HorizonLimitDamageSource;
+import net.yukulab.horizonlimit.damage.HorizonLimitDamageSource;
 import net.yukulab.horizonlimit.network.packet.play.UpdateCountdownS2CPacket;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
@@ -38,7 +38,8 @@ public class MixinServerPlayerEntity {
             if (horizonlimit$currentOverTimeTick > 0) {
                 horizonlimit$currentOverTimeTick--;
             } else {
-                var source = new HorizonLimitDamageSource();
+                var damageTypeRegistries = player.getDamageSources().registry;
+                var source = new HorizonLimitDamageSource(damageTypeRegistries);
                 player.damage(source, player.getHealth() + 1);
             }
         } else {
