@@ -21,7 +21,6 @@ public class MixinMinecraftServer implements ServerConfigHolder {
         if (!serverConfig.equals(config)) {
             serverConfig = config;
             ConfigIO.writeConfig(config);
-            // TODO SendServerConfigBothPacket
         }
     }
 }

@@ -1,8 +1,7 @@
 package net.yukulab.horizonlimit.mixin;
 
-import java.util.HashMap;
 import net.minecraft.server.network.ServerPlayerEntity;
-import net.yukulab.horizonlimit.HorizonLimitDamageSource;
+import net.yukulab.horizonlimit.damage.HorizonLimitDamageSource;
 import net.yukulab.horizonlimit.network.packet.play.UpdateCountdownS2CPacket;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
@@ -22,23 +21,23 @@ public class MixinServerPlayerEntity {
         var y = player.getY();
         // これがnullになることはない
         var config = player.getServer().horizonlimit$getServerConfig();
-        var worldName = world.getDimensionKey().getRegistry().getNamespace();
-        var playerMap = config.limit().computeIfAbsent(worldName, (key) -> new HashMap<>());
-        var limit = playerMap.get(player.getUuid());
-        if (limit == null) {
-            return;
-        }
+        var worldName = world.getDimension().effects().toString();
+        var users = config.limit().get(worldName);
+        if (users == null) return;
+        var limit = users.get(player.getUuid());
+        if (limit == null) return;
         var limitTick = config.timeLimit();
         var isSkySide = limit.isSkySide();
         var limitHeight = limit.limit();
-        if (isSkySide && y > limitHeight || y < limitHeight) {
+        if ((isSkySide && y < limitHeight) || (!isSkySide && y > limitHeight)) {
             if (horizonlimit$currentOverTimeTick == -1) {
                 horizonlimit$currentOverTimeTick = limitTick;
             }
             if (horizonlimit$currentOverTimeTick > 0) {
                 horizonlimit$currentOverTimeTick--;
             } else {
-                var source = new HorizonLimitDamageSource();
+                var damageTypeRegistries = player.getDamageSources().registry;
+                var source = new HorizonLimitDamageSource(damageTypeRegistries);
                 player.damage(source, player.getHealth() + 1);
             }
         } else {
