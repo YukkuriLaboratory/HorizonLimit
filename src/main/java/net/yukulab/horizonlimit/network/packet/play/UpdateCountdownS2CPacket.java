@@ -20,11 +20,7 @@ public class UpdateCountdownS2CPacket {
 
     @Environment(EnvType.CLIENT)
     public static void onReceive(
-            MinecraftClient client,
-            ClientPlayNetworkHandler handler,
-            PacketByteBuf buf,
-            PacketSender responseSender
-    ) {
+            MinecraftClient client, ClientPlayNetworkHandler handler, PacketByteBuf buf, PacketSender responseSender) {
         var currentCountdown = buf.readInt();
         // TODO update point
     }

@@ -2,6 +2,8 @@ package net.yukulab.horizonlimit.network.packet;
 
 import io.netty.util.concurrent.Future;
 import io.netty.util.concurrent.GenericFutureListener;
+import java.util.concurrent.CompletableFuture;
+import java.util.function.Consumer;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.networking.v1.PacketByteBufs;
@@ -14,16 +16,12 @@ import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.network.ServerLoginNetworkHandler;
 import net.yukulab.horizonlimit.network.Networking;
 
-import java.util.concurrent.CompletableFuture;
-import java.util.function.Consumer;
-
 public class HandShakeS2CPacket {
     public static void sendQuery(
             ServerLoginNetworkHandler handler,
             MinecraftServer server,
             PacketSender sender,
-            ServerLoginNetworking.LoginSynchronizer synchronizer
-    ) {
+            ServerLoginNetworking.LoginSynchronizer synchronizer) {
         sender.sendPacket(Networking.HANDSHAKE, PacketByteBufs.empty());
     }
 
@@ -33,18 +31,14 @@ public class HandShakeS2CPacket {
             boolean understood,
             PacketByteBuf buf,
             ServerLoginNetworking.LoginSynchronizer synchronizer,
-            PacketSender responseSender
-    ) {
-
-    }
+            PacketSender responseSender) {}
 
     @Environment(EnvType.CLIENT)
     public static CompletableFuture<PacketByteBuf> onHandShakeClient(
             MinecraftClient client,
             ClientLoginNetworkHandler clientLoginNetworkHandler,
             PacketByteBuf buf,
-            Consumer<GenericFutureListener<? extends Future<? super Void>>> genericFutureListenerConsumer
-    ) {
+            Consumer<GenericFutureListener<? extends Future<? super Void>>> genericFutureListenerConsumer) {
         return CompletableFuture.completedFuture(PacketByteBufs.empty());
     }
 }
