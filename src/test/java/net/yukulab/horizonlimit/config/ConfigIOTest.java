@@ -7,6 +7,8 @@ import java.io.File;
 import java.util.HashMap;
 import java.util.UUID;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 public class ConfigIOTest {
     @Test
     public void testConfig()  {
@@ -20,8 +22,9 @@ public class ConfigIOTest {
         ConfigIO.writeConfig(baseDir, config);
 
         config = ConfigIO.readConfig(baseDir);
-        assert config.limit.get("overworld").get(dummyId).equals(dummyHeight);
 
-        assert ConfigIO.getConfigFile(baseDir).exists();
+        assertEquals(dummyHeight,config.limit.get("overworld").get(dummyId));
+
+        assert ConfigIO.getConfigFile(baseDir).delete();
     }
 }
