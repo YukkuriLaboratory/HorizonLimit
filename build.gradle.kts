@@ -15,7 +15,7 @@ repositories {
     // You should only use this when depending on other mods because
     // Loom adds the essential maven repositories to download Minecraft and libraries from automatically.
     // See https://docs.gradle.org/current/userguide/declaring_repositories.html
-    // for more information about repositories.
+    // for more information about repositories. repositories {
 }
 
 val yarn_mappings: String by project
@@ -29,6 +29,9 @@ dependencies {
 
     // Fabric API. This is technically optional, but you probably want it anyway.
     modImplementation("net.fabricmc.fabric-api:fabric-api:$fabric_version")
+
+    // Modrinth maven -> modImplementation("maven.modrinth:<modid>:<version-number>")
+    implementation("com.fasterxml.jackson.core", "jackson-databind", "2.15.3")
 }
 
 tasks.processResources {
@@ -39,8 +42,8 @@ tasks.processResources {
 
     filesMatching("fabric.mod.json") {
         expand("version" to project.version,
-                "minecraft_version" to minecraft_version,
-                "loader_version" to loader_version)
+            "minecraft_version" to minecraft_version,
+            "loader_version" to loader_version)
     }
 }
 
@@ -52,7 +55,7 @@ tasks.withType<JavaCompile>().configureEach {
     // If Javadoc is generated, this must be specified in that task too.
     options.encoding = "UTF-8"
     if (targetJavaVersion >= 10 || JavaVersion.current().isJava10Compatible()) {
-       options.release.set(targetJavaVersion)
+        options.release.set(targetJavaVersion)
     }
 }
 
