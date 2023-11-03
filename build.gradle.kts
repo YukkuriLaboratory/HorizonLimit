@@ -1,7 +1,7 @@
 plugins {
     id("fabric-loom") version "1.4-SNAPSHOT"
     id("maven-publish")
-    checkstyle
+    id("com.diffplug.spotless") version "6.22.0"
 }
 
 val mod_version: String by project
@@ -72,6 +72,17 @@ java {
 tasks.jar {
     from("LICENSE") {
         rename { "${it}_${archives_base_name}"}
+    }
+}
+
+spotless {
+    java {
+        palantirJavaFormat()
+        target("src/main/java/**/*.java", "src/main/test/**/*.java")
+        removeUnusedImports()
+        importOrder("")
+        trimTrailingWhitespace()
+        indentWithSpaces(4)
     }
 }
 
