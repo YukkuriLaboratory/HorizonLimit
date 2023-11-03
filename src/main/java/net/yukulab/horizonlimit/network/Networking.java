@@ -13,7 +13,6 @@ import net.yukulab.horizonlimit.network.packet.play.UpdateCountdownS2CPacket;
 
 public class Networking {
     public static final Identifier HANDSHAKE = id("handshake");
-    public static final Identifier UPDATE_CONFIG = id("updateconig");
     public static final Identifier UPDATE_COUNTDOWN = id("updatecountdown");
 
     public static void registerServerReceivers() {
