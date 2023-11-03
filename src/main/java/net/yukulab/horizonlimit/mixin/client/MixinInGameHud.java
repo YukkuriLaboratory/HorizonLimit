@@ -14,16 +14,18 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(InGameHud.class)
 public abstract class MixinInGameHud {
-    @Shadow @Final private MinecraftClient client;
+    @Shadow
+    @Final
+    private MinecraftClient client;
 
     @Inject(method = "render", at = @At("RETURN"))
     private void renderModElements(DrawContext context, float tickDelta, CallbackInfo ci) {
-        if(client.getDebugHud().shouldShowDebugHud() || client.options.hudHidden) {
+        if (client.getDebugHud().shouldShowDebugHud() || client.options.hudHidden) {
             return;
         }
 
         Lists.newArrayList(TestElement.INSTANCE).forEach(i -> {
-            if(i.visible) {
+            if (i.visible) {
                 i.render(context);
             }
         });

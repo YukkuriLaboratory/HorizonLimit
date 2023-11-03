@@ -4,10 +4,18 @@ import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.text.Text;
 
-
 public abstract class HudElement {
-    public int x = 5;
-    public int y = 10;
+    public int x;
+    public int y;
+
+    protected HudElement() {
+        this(5, 10);
+    }
+
+    protected HudElement(int x, int y) {
+        this.x = x;
+        this.y = y;
+    }
 
     public int backgroundColor = -0x6FAFAFB0;
 
@@ -22,7 +30,7 @@ public abstract class HudElement {
     }
 
     public void render(DrawContext drawContext) {
-        drawContext.drawText(MinecraftClient.getInstance().textRenderer, getText(), x+2, y+2, -1 ,false);
+        drawContext.drawText(MinecraftClient.getInstance().textRenderer, getText(), x + 2, y + 2, -1, false);
     }
 
     abstract Text getText();
