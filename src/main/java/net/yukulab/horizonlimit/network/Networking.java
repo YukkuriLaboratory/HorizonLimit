@@ -13,6 +13,7 @@ import net.yukulab.horizonlimit.network.packet.play.UpdateCountdownS2CPacket;
 
 public class Networking {
     public static final Identifier HANDSHAKE = id("handshake");
+    public static final Identifier UPDATE_CONFIG = id("updateconig");
     public static final Identifier UPDATE_COUNTDOWN = id("updatecountdown");
 
     public static void registerServerReceivers() {
@@ -25,8 +26,6 @@ public class Networking {
         ClientLoginNetworking.registerGlobalReceiver(HANDSHAKE, HandShakeS2CPacket::onHandShakeClient);
         ClientPlayNetworking.registerGlobalReceiver(UPDATE_COUNTDOWN, UpdateCountdownS2CPacket::onReceive);
     }
-
-
 
     private static Identifier id(String name) {
         return Identifier.of(HorizonLimit.MOD_ID, name);
