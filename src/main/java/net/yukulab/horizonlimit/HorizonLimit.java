@@ -13,5 +13,6 @@ public class HorizonLimit implements ModInitializer {
     @Override
     public void onInitialize() {
         Networking.registerServerReceivers();
+        Commands.register();
     }
 }
