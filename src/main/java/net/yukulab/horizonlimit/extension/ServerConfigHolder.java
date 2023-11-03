@@ -8,6 +8,5 @@ public interface ServerConfigHolder {
         return null;
     }
 
-    default void horizonlimit$setServerConfig(@NotNull ServerConfig config) {
-    }
+    default void horizonlimit$setServerConfig(@NotNull ServerConfig config) {}
 }

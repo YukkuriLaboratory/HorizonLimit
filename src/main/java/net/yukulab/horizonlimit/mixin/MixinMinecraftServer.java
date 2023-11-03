@@ -18,7 +18,7 @@ public class MixinMinecraftServer implements ServerConfigHolder {
 
     @Override
     public void horizonlimit$setServerConfig(@NotNull ServerConfig config) {
-        if(!serverConfig.equals(config)) {
+        if (!serverConfig.equals(config)) {
             serverConfig = config;
             ConfigIO.writeConfig(config);
             // TODO SendServerConfigBothPacket
