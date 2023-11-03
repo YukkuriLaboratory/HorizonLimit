@@ -18,12 +18,12 @@ public class ConfigIOTest {
         var dummyHeight = new UserHeight(true, 2);
         var dummyId = UUID.randomUUID();
         dummyHeights.put(dummyId, dummyHeight);
-        config.limit.put("overworld", dummyHeights);
+        config.limit().put("overworld", dummyHeights);
         ConfigIO.writeConfig(baseDir, config);
 
         config = ConfigIO.readConfig(baseDir);
 
-        assertEquals(dummyHeight,config.limit.get("overworld").get(dummyId));
+        assertEquals(dummyHeight,config.limit().get("overworld").get(dummyId));
 
         assert ConfigIO.getConfigFile(baseDir).delete();
     }

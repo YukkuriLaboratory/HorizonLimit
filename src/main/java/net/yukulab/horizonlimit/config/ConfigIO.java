@@ -40,7 +40,7 @@ public class ConfigIO {
     }
 
     public static ServerConfig readConfig(File baseDir) {
-        ServerConfig config = new ServerConfig();
+        ServerConfig config = ServerConfig.asDefault();
         File configFile = getConfigFile(baseDir);
         if (!configFile.exists()) writeConfig(baseDir, config);
         try {
