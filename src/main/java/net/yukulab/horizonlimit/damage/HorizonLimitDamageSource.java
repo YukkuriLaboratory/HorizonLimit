@@ -12,9 +12,8 @@ public class HorizonLimitDamageSource extends DamageSource {
         super(registry.entryOf(HLDamageTypes.HORIZONTAL_LIMIT));
     }
 
-    // 本来であれば言語ファイルに設定するべき
     @Override
     public Text getDeathMessage(LivingEntity killed) {
-        return Text.empty().append(killed.getDisplayName()).append("は世界の境界線を超えてしまった");
+        return Text.translatable("death.attack.border.over", killed.getDisplayName());
     }
 }

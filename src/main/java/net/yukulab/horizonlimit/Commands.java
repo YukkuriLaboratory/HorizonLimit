@@ -16,7 +16,6 @@ import java.util.HashMap;
 import net.fabricmc.fabric.api.command.v2.CommandRegistrationCallback;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.text.Text;
-import net.yukulab.horizonlimit.config.ConfigIO;
 import net.yukulab.horizonlimit.config.ServerConfig;
 import net.yukulab.horizonlimit.config.UserHeight;
 
@@ -35,10 +34,12 @@ public class Commands {
                                                                 var world = getDimensionArgument(context, "world");
                                                                 var limit = getInteger(context, "limit");
                                                                 var side = getBool(context, "isSkySide");
-                                                                ServerConfig config = ConfigIO.readConfig();
-                                                                var dim = world.getDimensionKey()
-                                                                        .getRegistry()
-                                                                        .getNamespace();
+                                                                ServerConfig config = context.getSource()
+                                                                        .getServer()
+                                                                        .horizonlimit$getServerConfig();
+                                                                var dim = world.getDimension()
+                                                                        .effects()
+                                                                        .toString();
                                                                 var map = config.limit()
                                                                         .get(dim);
                                                                 if (map == null) {
@@ -46,13 +47,15 @@ public class Commands {
                                                                 }
                                                                 map.put(target.getUuid(), new UserHeight(side, limit));
                                                                 config.limit().put(dim, map);
-                                                                ConfigIO.writeConfig(config);
+                                                                context.getSource()
+                                                                        .getServer()
+                                                                        .horizonlimit$setServerConfig(config);
                                                                 context.getSource()
                                                                         .sendFeedback(
                                                                                 () -> Text.of(
                                                                                         target.getEntityName()
                                                                                                 + "さんの"
-                                                                                                + (side ? "最大" : "最小")
+                                                                                                + (side ? "最小" : "最大")
                                                                                                 + "高度をY" + limit
                                                                                                 + "に設定しました。"),
                                                                                 true);
@@ -60,8 +63,10 @@ public class Commands {
                                                             }))))))
                     .then(literal("count").then(argument("tick", integer()).executes(context -> {
                         var tick = getInteger(context, "tick");
-                        ServerConfig config = ConfigIO.readConfig();
-                        ConfigIO.writeConfig(new ServerConfig(tick, config.limit()));
+                        ServerConfig config = context.getSource().getServer().horizonlimit$getServerConfig();
+                        context.getSource()
+                                .getServer()
+                                .horizonlimit$setServerConfig(new ServerConfig(tick, config.limit()));
                         context.getSource()
                                 .sendFeedback(
                                         () -> Text.of("禁止エリアの猶予時間を" + String.format("%.2f", (double) tick / 20)
