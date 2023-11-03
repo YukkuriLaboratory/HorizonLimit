@@ -29,6 +29,7 @@ public class ConfigIO {
         if (!json.isEmpty()) {
             try (var writer = new FileWriter(getConfigFile(baseDir), false)) {
                 writer.write(json);
+                HorizonLimit.LOGGER.info("Config was wrote.");
             } catch (IOException e) {
                 HorizonLimit.LOGGER.error("Failed to write config", e);
             }
@@ -45,6 +46,7 @@ public class ConfigIO {
         if (!configFile.exists()) writeConfig(baseDir, config);
         try {
             config = mapper.readValue(configFile, ServerConfig.class);
+            HorizonLimit.LOGGER.info("Config was read.");
         } catch (StreamReadException e) {
             HorizonLimit.LOGGER.error("Error in reading stream", e);
         } catch (DatabindException e) {

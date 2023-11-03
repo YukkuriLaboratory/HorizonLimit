@@ -50,15 +50,16 @@ public class Commands {
                                                                 context.getSource()
                                                                         .getServer()
                                                                         .horizonlimit$setServerConfig(config);
+                                                                String feedbackLangkey =
+                                                                        "command.hl.height." + (side ? "min" : "max");
                                                                 context.getSource()
                                                                         .sendFeedback(
-                                                                                () -> Text.of(
-                                                                                        target.getEntityName()
-                                                                                                + "さんの"
-                                                                                                + (side ? "最小" : "最大")
-                                                                                                + "高度をY" + limit
-                                                                                                + "に設定しました。"),
+                                                                                () -> Text.translatable(
+                                                                                        feedbackLangkey,
+                                                                                        target.getEntityName(),
+                                                                                        limit),
                                                                                 true);
+
                                                                 return Command.SINGLE_SUCCESS;
                                                             }))))))
                     .then(literal("count").then(argument("tick", integer()).executes(context -> {
@@ -69,8 +70,8 @@ public class Commands {
                                 .horizonlimit$setServerConfig(new ServerConfig(tick, config.limit()));
                         context.getSource()
                                 .sendFeedback(
-                                        () -> Text.of("禁止エリアの猶予時間を" + String.format("%.2f", (double) tick / 20)
-                                                + "秒に設定しました。"),
+                                        () -> Text.translatable(
+                                                "command.hl.count", String.format("%.2f", (double) tick / 20)),
                                         true);
                         return Command.SINGLE_SUCCESS;
                     }))));
