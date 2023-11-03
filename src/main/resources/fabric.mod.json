@@ -26,5 +26,12 @@
     "fabricloader": ">=${loader_version}",
     "fabric": "*",
     "minecraft": "${minecraft_version}"
+  },
+  "custom": {
+    "loom:injected_interfaces": {
+      "net/minecraft/server/MinecraftServer": [
+        "net/yukulab/horizonlimit/extension/ServerConfigHolder"
+      ]
+    }
   }
 }

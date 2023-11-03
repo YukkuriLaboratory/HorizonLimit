@@ -1,57 +1,55 @@
 package net.yukulab.horizonlimit.config;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.google.gson.JsonParseException;
-import net.fabricmc.loader.api.FabricLoader;
-import net.yukulab.horizonlimit.HorizonLimit;
-
-
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.exc.StreamReadException;
+import com.fasterxml.jackson.databind.DatabindException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.Optional;
+import net.fabricmc.loader.api.FabricLoader;
+import net.yukulab.horizonlimit.HorizonLimit;
 
 public class ConfigIO {
     protected ConfigIO() {
         throw new UnsupportedOperationException("Don't create this class instance");
     }
-    private static final Gson GSON = new GsonBuilder().setPrettyPrinting().create();
-    public static <T> void writeConfig(T config) {
-        String json = GSON.toJson(config);
-        try (var writer = new FileWriter(getConfigFile(config.getClass()), false)) {
-            writer.write(json);
-        } catch (IOException e) {
-            HorizonLimit.LOGGER.error("Failed to write config", e);
+
+    private static final ObjectMapper mapper = new ObjectMapper();
+
+    public static void writeConfig(ServerConfig config) {
+        String json = "";
+        try {
+            json = mapper.writeValueAsString(config);
+        } catch (JsonProcessingException e) {
+            HorizonLimit.LOGGER.error("Error while in processing json", e);
+        }
+        if (!json.isEmpty()) {
+            try (var writer = new FileWriter(getConfigFile(), false)) {
+                writer.write(json);
+            } catch (IOException e) {
+                HorizonLimit.LOGGER.error("Failed to write config", e);
+            }
         }
     }
 
-    public static <T> Optional<T> readConfig(Class<T> targetObject) {
-        File configFile = getConfigFile(targetObject);
-        try (FileReader reader = new FileReader(configFile)) {
-            var config = GSON.fromJson(reader, targetObject);
-            return Optional.of(config);
-        } catch (FileNotFoundException e) {
-            HorizonLimit.LOGGER.warn("Config file is not found. Load default data");
+    public static ServerConfig readConfig() {
+        ServerConfig config = new ServerConfig();
+        File configFile = getConfigFile();
+        if (!configFile.exists()) writeConfig(config);
+        try {
+            config = mapper.readValue(configFile, ServerConfig.class);
+        } catch (StreamReadException e) {
+            HorizonLimit.LOGGER.error("Error in reading stream", e);
+        } catch (DatabindException e) {
+            HorizonLimit.LOGGER.error("Failed to databind", e);
         } catch (IOException e) {
-            HorizonLimit.LOGGER.error("Failed to load config", e);
-        } catch (JsonParseException e) {
-            var ignored = configFile.renameTo(new File(configFile.getParent(), configFile.getName() + ".old"));
-            HorizonLimit.LOGGER.warn("Exists old file. Loads default config.");
+            HorizonLimit.LOGGER.error("IOException was occurred", e);
         }
-        return Optional.empty();
+        return config;
     }
 
-    private static <T> File getConfigFile(Class<T> targetObject) {
-        StringBuilder builder = new StringBuilder().append(HorizonLimit.MOD_NAME);
-        if (targetObject.equals(ServerConfig.class)) {
-            builder.append("_server");
-        } else {
-            builder.append("_unknown");
-        }
-        builder.append(".json");
-        return new File(FabricLoader.getInstance().getConfigDir().toFile(), builder.toString());
+    private static File getConfigFile() {
+        return new File(FabricLoader.getInstance().getConfigDir().toFile(), HorizonLimit.MOD_ID + ".json");
     }
 }
