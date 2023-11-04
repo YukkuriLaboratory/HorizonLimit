@@ -2,7 +2,6 @@ package net.yukulab.horizonlimit.hud;
 
 import net.minecraft.text.Style;
 import net.minecraft.text.Text;
-import net.minecraft.text.TextColor;
 import net.minecraft.util.Formatting;
 
 public class StatusElement extends HudElement {
