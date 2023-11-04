@@ -3,6 +3,11 @@
   "command.hl.height.min": "%sの最低高度がY%dに設定されました",
   "command.hl.height.max": "%sの最高高度がY%dに設定されました",
   "command.hl.count": "禁止エリアの猶予時間を%s秒に設定しました",
+  "death.attack.horizontal_limit":"%sは世界の境界線を超えてしまった",
+  "death.attack.horizontal_limit.player": "%sは%sから逃げている最中に世界の境界線を超えてしまった",
+  "command.hl.height.min": "%sの最低高度がY%dに設定されました",
+  "command.hl.height.max": "%sの最高高度がY%dに設定されました",
+  "command.hl.count": "禁止エリアの猶予時間を%s秒に設定しました",
   "hud.alert.safe": "安全",
   "hud.alert.danger": "危険",
   "hud.countdown": "%s秒"
