@@ -2,5 +2,8 @@
   "death.attack.border.over": "%s was over the world border",
   "command.hl.height.min": "%s's min height was set to Y%d",
   "command.hl.height.max": "%s's max height was set to Y%d",
-  "command.hl.count": "The grace time for denied areas is set to %s seconds"
+  "command.hl.count": "The grace time for denied areas is set to %s seconds",
+  "hud.alert.safe": "Safe",
+  "hud.alert.danger": "Danger",
+  "hud.countdown": "%ss"
 }
