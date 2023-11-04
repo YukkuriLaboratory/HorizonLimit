@@ -9,6 +9,7 @@ import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.network.ClientPlayNetworkHandler;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.server.network.ServerPlayerEntity;
+import net.yukulab.horizonlimit.hud.StatusElement;
 import net.yukulab.horizonlimit.network.Networking;
 
 public class UpdateCountdownS2CPacket {
@@ -22,6 +23,7 @@ public class UpdateCountdownS2CPacket {
     public static void onReceive(
             MinecraftClient client, ClientPlayNetworkHandler handler, PacketByteBuf buf, PacketSender responseSender) {
         var currentCountdown = buf.readInt();
+        StatusElement.INSTANCE.setNowTime(currentCountdown);
         // TODO update point
     }
 }

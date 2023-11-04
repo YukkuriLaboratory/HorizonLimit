@@ -4,7 +4,7 @@ import com.google.common.collect.Lists;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.hud.InGameHud;
-import net.yukulab.horizonlimit.hud.TestElement;
+import net.yukulab.horizonlimit.hud.StatusElement;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -24,7 +24,7 @@ public abstract class MixinInGameHud {
             return;
         }
 
-        Lists.newArrayList(TestElement.INSTANCE).forEach(i -> {
+        Lists.newArrayList(StatusElement.INSTANCE).forEach(i -> {
             if (i.visible) {
                 i.render(context);
             }

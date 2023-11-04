@@ -1,15 +1,19 @@
 package net.yukulab.horizonlimit.hud;
 
 import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.text.Text;
 
 public abstract class HudElement {
+    TextRenderer renderer = MinecraftClient.getInstance().textRenderer;
     public int x;
     public int y;
 
+    public float scale = 1f;
+
     protected HudElement() {
-        this(5, 10);
+        this(5, 5);
     }
 
     protected HudElement(int x, int y) {
@@ -21,6 +25,14 @@ public abstract class HudElement {
 
     public boolean visible = true;
 
+    public void setVisible(boolean visible) {
+        this.visible = visible;
+    }
+
+    public boolean getVisible() {
+        return this.visible;
+    }
+
     public int getHeight() {
         return MinecraftClient.getInstance().inGameHud.getTextRenderer().fontHeight + 2;
     }
@@ -30,7 +42,11 @@ public abstract class HudElement {
     }
 
     public void render(DrawContext drawContext) {
-        drawContext.drawText(MinecraftClient.getInstance().textRenderer, getText(), x + 2, y + 2, -1, false);
+        drawContext.getMatrices().push();
+        drawContext.getMatrices().scale(scale, scale, 0f);
+        drawContext.fill(x, y, x + getWidth() + 3, y + getHeight(), backgroundColor);
+        drawContext.drawText(renderer, getText(), x + 2, y + 2, -1, false);
+        drawContext.getMatrices().pop();
     }
 
     abstract Text getText();
