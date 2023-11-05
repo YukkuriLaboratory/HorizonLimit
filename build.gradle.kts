@@ -34,7 +34,11 @@ dependencies {
     modImplementation("net.fabricmc.fabric-api:fabric-api:$fabric_version")
 
     // Modrinth maven -> modImplementation("maven.modrinth:<modid>:<version-number>")
-    implementation("com.fasterxml.jackson.core", "jackson-databind", "2.15.3")
+    // https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-core
+    include(implementation("com.fasterxml.jackson.core", "jackson-core", "2.15.3"))
+    include(implementation("com.fasterxml.jackson.core", "jackson-databind", "2.15.3"))
+    // https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-annotations
+    include(implementation("com.fasterxml.jackson.core", "jackson-annotations", "2.15.3"))
 
     testImplementation(platform("org.junit:junit-bom:5.10.0"))
     testImplementation("org.junit.jupiter:junit-jupiter")
