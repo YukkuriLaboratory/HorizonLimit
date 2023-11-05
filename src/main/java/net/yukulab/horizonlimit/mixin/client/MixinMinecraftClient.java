@@ -12,20 +12,21 @@ import org.spongepowered.asm.mixin.Mixin;
 @Mixin(MinecraftClient.class)
 @Environment(EnvType.CLIENT)
 public class MixinMinecraftClient implements ClientConfigHolder {
-    private ClientConfig clientConfig = ConfigIO.readConfig(ClientConfig.class).orElseGet(() -> {
-        var config = ClientConfig.asDefault();
-        ConfigIO.writeConfig(config);
-        return config;
-    });
+    private ClientConfig horizonlimit$clientConfig = ConfigIO.readConfig(ClientConfig.class)
+            .orElseGet(() -> {
+                var config = ClientConfig.asDefault();
+                ConfigIO.writeConfig(config);
+                return config;
+            });
 
     @Override
     public ClientConfig horizonlimit$getClientConfig() {
-        return clientConfig;
+        return horizonlimit$clientConfig;
     }
 
     @Override
     public void horizonlimit$setClientConfig(@NotNull ClientConfig config) {
-        clientConfig = config;
+        horizonlimit$clientConfig = config;
         ConfigIO.writeConfig(config);
     }
 }

@@ -11,20 +11,21 @@ import org.spongepowered.asm.mixin.Unique;
 @Mixin(MinecraftServer.class)
 public class MixinMinecraftServer implements ServerConfigHolder {
     @Unique
-    private ServerConfig serverConfig = ConfigIO.readConfig(ServerConfig.class).orElseGet(() -> {
-        var config = ServerConfig.asDefault();
-        ConfigIO.writeConfig(config);
-        return config;
-    });
+    private ServerConfig horizonlimit$serverConfig = ConfigIO.readConfig(ServerConfig.class)
+            .orElseGet(() -> {
+                var config = ServerConfig.asDefault();
+                ConfigIO.writeConfig(config);
+                return config;
+            });
 
     @Override
     public ServerConfig horizonlimit$getServerConfig() {
-        return serverConfig;
+        return horizonlimit$serverConfig;
     }
 
     @Override
     public void horizonlimit$setServerConfig(@NotNull ServerConfig config) {
-        serverConfig = config;
+        horizonlimit$serverConfig = config;
         ConfigIO.writeConfig(config);
     }
 }
