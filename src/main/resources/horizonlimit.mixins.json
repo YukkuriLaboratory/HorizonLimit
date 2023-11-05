@@ -8,6 +8,7 @@
     "MixinServerPlayerEntity"
   ],
   "client": [
+    "client.MixinInGameHud"
   ],
   "injectors": {
     "defaultRequire": 1

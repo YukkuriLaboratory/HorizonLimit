@@ -3,5 +3,6 @@
   "death.attack.horizontal_limit.player": "%s was over the world border while trying to escape from %s",
   "command.hl.height.min": "%s's min height was set to Y%d",
   "command.hl.height.max": "%s's max height was set to Y%d",
-  "command.hl.count": "The grace time for denied areas is set to %s seconds"
+  "command.hl.count": "The grace time for denied areas is set to %s seconds",
+  "hud.countdown": "%ss"
 }
