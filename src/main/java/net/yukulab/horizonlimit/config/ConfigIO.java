@@ -8,6 +8,7 @@ import com.fasterxml.jackson.databind.SerializationFeature;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.Optional;
 import net.fabricmc.loader.api.FabricLoader;
 import net.yukulab.horizonlimit.HorizonLimit;
 import org.jetbrains.annotations.VisibleForTesting;
@@ -15,11 +16,15 @@ import org.jetbrains.annotations.VisibleForTesting;
 public class ConfigIO {
     private static final ObjectMapper mapper = new ObjectMapper().enable(SerializationFeature.INDENT_OUTPUT);
 
-    public static void writeConfig(ServerConfig config) {
-        writeConfig(FabricLoader.getInstance().getConfigDir().toFile(), config);
+    public static File getConfigDir() {
+        return FabricLoader.getInstance().getConfigDir().toFile();
     }
 
-    public static void writeConfig(File baseDir, ServerConfig config) {
+    public static <T> void writeConfig(T config) {
+        writeConfig(getConfigDir(), config);
+    }
+
+    public static <T> void writeConfig(File baseDir, T config) {
         String json = "";
         try {
             json = mapper.writeValueAsString(config);
@@ -27,7 +32,7 @@ public class ConfigIO {
             HorizonLimit.LOGGER.error("Error while in processing json", e);
         }
         if (!json.isEmpty()) {
-            try (var writer = new FileWriter(getConfigFile(baseDir), false)) {
+            try (var writer = new FileWriter(getConfigFile(baseDir, config.getClass()), false)) {
                 writer.write(json);
                 HorizonLimit.LOGGER.info("Config was wrote.");
             } catch (IOException e) {
@@ -36,17 +41,15 @@ public class ConfigIO {
         }
     }
 
-    public static ServerConfig readConfig() {
-        return readConfig(FabricLoader.getInstance().getConfigDir().toFile());
+    public static <T> Optional<T> readConfig(Class<T> configClass) {
+        return readConfig(getConfigDir(), configClass);
     }
 
-    public static ServerConfig readConfig(File baseDir) {
-        ServerConfig config = ServerConfig.asDefault();
-        File configFile = getConfigFile(baseDir);
-        if (!configFile.exists()) writeConfig(baseDir, config);
+    public static <T> Optional<T> readConfig(File baseDir, Class<T> configClass) {
+        File configFile = getConfigFile(baseDir, configClass);
+        if (!configFile.exists()) return Optional.empty();
         try {
-            config = mapper.readValue(configFile, ServerConfig.class);
-            HorizonLimit.LOGGER.info("Config was read.");
+            return Optional.of(mapper.readValue(configFile, configClass));
         } catch (StreamReadException e) {
             HorizonLimit.LOGGER.error("Error in reading stream", e);
         } catch (DatabindException e) {
@@ -54,11 +57,20 @@ public class ConfigIO {
         } catch (IOException e) {
             HorizonLimit.LOGGER.error("IOException was occurred", e);
         }
-        return config;
+        return Optional.empty();
     }
 
     @VisibleForTesting
-    public static File getConfigFile(File baseDir) {
-        return new File(baseDir, HorizonLimit.MOD_ID + ".json");
+    public static <T> File getConfigFile(File baseDir, Class<T> configClass) {
+        StringBuilder builder = new StringBuilder(HorizonLimit.MOD_ID);
+        if (configClass.equals(ServerConfig.class)) {
+            builder.append("_server");
+        } else if (configClass.equals(ClientConfig.class)) {
+            builder.append("_client");
+        } else {
+            builder.append("_unknown");
+        }
+        builder.append(".json");
+        return new File(baseDir, builder.toString());
     }
 }

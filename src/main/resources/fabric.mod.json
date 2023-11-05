@@ -17,6 +17,9 @@
     ],
     "main": [
       "net.yukulab.horizonlimit.HorizonLimit"
+    ],
+    "modmenu": [
+      "net.yukulab.horizonlimit.client.ModMenuIntegration"
     ]
   },
   "mixins": [
@@ -31,6 +34,9 @@
     "loom:injected_interfaces": {
       "net/minecraft/server/MinecraftServer": [
         "net/yukulab/horizonlimit/extension/ServerConfigHolder"
+      ],
+      "net/minecraft/client/MinecraftClient": [
+        "net/yukulab/horizonlimit/extension/ClientConfigHolder"
       ]
     }
   }

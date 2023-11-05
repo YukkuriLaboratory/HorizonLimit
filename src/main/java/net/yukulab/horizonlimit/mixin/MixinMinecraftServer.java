@@ -6,10 +6,16 @@ import net.yukulab.horizonlimit.config.ServerConfig;
 import net.yukulab.horizonlimit.extension.ServerConfigHolder;
 import org.jetbrains.annotations.NotNull;
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Unique;
 
 @Mixin(MinecraftServer.class)
 public class MixinMinecraftServer implements ServerConfigHolder {
-    private ServerConfig serverConfig = ConfigIO.readConfig();
+    @Unique
+    private ServerConfig serverConfig = ConfigIO.readConfig(ServerConfig.class).orElseGet(() -> {
+        var config = ServerConfig.asDefault();
+        ConfigIO.writeConfig(config);
+        return config;
+    });
 
     @Override
     public ServerConfig horizonlimit$getServerConfig() {
