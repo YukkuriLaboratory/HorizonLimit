@@ -4,5 +4,7 @@
   "command.hl.height.min": "%s's min height was set to Y%d",
   "command.hl.height.max": "%s's max height was set to Y%d",
   "command.hl.count": "The grace time for denied areas is set to %s seconds",
-  "hud.countdown": "%ss"
+  "hud.countdown": "%ss",
+  "category.horizonlimit.hud": "HUD",
+  "option.horizonlimit.hud.scale": "HUD Scale"
 }

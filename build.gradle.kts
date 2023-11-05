@@ -16,7 +16,9 @@ repositories {
     // You should only use this when depending on other mods because
     // Loom adds the essential maven repositories to download Minecraft and libraries from automatically.
     // See https://docs.gradle.org/current/userguide/declaring_repositories.html
-    // for more information about repositories. repositories {
+    // for more information about repositories.
+    maven { url = uri("https://maven.shedaniel.me/") }
+    maven { url = uri("https://maven.terraformersmc.com/releases/") }
 }
 
 val yarn_mappings: String by project
@@ -36,6 +38,9 @@ dependencies {
 
     testImplementation(platform("org.junit:junit-bom:5.10.0"))
     testImplementation("org.junit.jupiter:junit-jupiter")
+
+    modApi("me.shedaniel.cloth:cloth-config-fabric:12.0.109")
+    modApi("com.terraformersmc:modmenu:8.0.0")
 }
 
 tasks.processResources {

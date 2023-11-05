@@ -13,7 +13,11 @@ public class ConfigIOTest {
     @Test
     public void testConfig()  {
         var baseDir = new File(".");
-        var config = ConfigIO.readConfig(baseDir);
+        var config = ConfigIO.readConfig(baseDir, ServerConfig.class).orElseGet(() -> {
+            var _config = ServerConfig.asDefault();
+            ConfigIO.writeConfig(baseDir, _config);
+            return _config;
+        });
         var dummyHeights = new HashMap<UUID, UserHeight>();
         var dummyHeight = new UserHeight(true, 2);
         var dummyId = UUID.randomUUID();
@@ -21,10 +25,14 @@ public class ConfigIOTest {
         config.limit().put("overworld", dummyHeights);
         ConfigIO.writeConfig(baseDir, config);
 
-        config = ConfigIO.readConfig(baseDir);
+        config = ConfigIO.readConfig(baseDir, ServerConfig.class).orElseGet(() -> {
+            var _config = ServerConfig.asDefault();
+            ConfigIO.writeConfig(baseDir, _config);
+            return _config;
+        });
 
         assertEquals(dummyHeight,config.limit().get("overworld").get(dummyId));
 
-        assert ConfigIO.getConfigFile(baseDir).delete();
+        assert ConfigIO.getConfigFile(baseDir, ServerConfig.class).delete();
     }
 }
