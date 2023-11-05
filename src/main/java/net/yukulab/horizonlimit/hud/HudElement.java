@@ -33,6 +33,14 @@ public abstract class HudElement {
         return this.visible;
     }
 
+    public void setScale(float scale) {
+        this.scale = scale;
+    }
+
+    public float getScale() {
+        return this.scale;
+    }
+
     public int getHeight() {
         return MinecraftClient.getInstance().inGameHud.getTextRenderer().fontHeight + 2;
     }

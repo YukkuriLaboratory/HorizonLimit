@@ -5,17 +5,12 @@ import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
 
 public class StatusElement extends HudElement {
-
-    public enum State {
-        SAFE,
-        DANGER
-    }
-
     public static final StatusElement INSTANCE = new StatusElement();
-    public State NowState = State.SAFE;
+
     private int nowTime = -1; // tick
 
     public void setNowTime(int time) {
+        this.setVisible(time != -1);
         this.nowTime = time;
     }
 
@@ -26,16 +21,12 @@ public class StatusElement extends HudElement {
     private StatusElement() {
         super();
         this.scale = 1.5f;
+        this.setVisible(false);
     }
 
     @Override
     Text getText() {
-        if (nowTime != -1) {
-            return Text.translatable("hud.countdown", String.valueOf(String.format("%.2f", (double) nowTime / 20)))
-                    .setStyle(Style.EMPTY.withColor(Formatting.RED));
-        } else {
-            return Text.translatable("hud.alert." + NowState.name().toLowerCase())
-                    .setStyle(Style.EMPTY.withColor(Formatting.GREEN));
-        }
+        return Text.translatable("hud.countdown", String.valueOf(String.format("%.2f", (double) nowTime / 20)))
+                .setStyle(Style.EMPTY.withColor(Formatting.RED));
     }
 }

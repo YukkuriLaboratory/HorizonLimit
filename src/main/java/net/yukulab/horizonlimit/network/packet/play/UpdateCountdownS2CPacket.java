@@ -24,6 +24,5 @@ public class UpdateCountdownS2CPacket {
             MinecraftClient client, ClientPlayNetworkHandler handler, PacketByteBuf buf, PacketSender responseSender) {
         var currentCountdown = buf.readInt();
         StatusElement.INSTANCE.setNowTime(currentCountdown);
-        // TODO update point
     }
 }
