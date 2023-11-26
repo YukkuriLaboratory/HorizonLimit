@@ -43,8 +43,8 @@ dependencies {
     testImplementation(platform("org.junit:junit-bom:5.10.0"))
     testImplementation("org.junit.jupiter:junit-jupiter")
 
-    modApi("me.shedaniel.cloth:cloth-config-fabric:12.0.109")
-    modApi("com.terraformersmc:modmenu:8.0.0")
+    modApi("me.shedaniel.cloth:cloth-config-fabric:11.1.106")
+    modApi("com.terraformersmc:modmenu:7.2.2")
 }
 
 tasks.processResources {
