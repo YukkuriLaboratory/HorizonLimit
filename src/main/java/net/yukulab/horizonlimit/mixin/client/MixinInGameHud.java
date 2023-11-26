@@ -20,7 +20,7 @@ public abstract class MixinInGameHud {
 
     @Inject(method = "render", at = @At("RETURN"))
     private void renderModElements(DrawContext context, float tickDelta, CallbackInfo ci) {
-        if (client.getDebugHud().shouldShowDebugHud() || client.options.hudHidden) {
+        if (client.options.debugEnabled) {
             return;
         }
 
