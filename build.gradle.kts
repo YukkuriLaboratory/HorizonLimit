@@ -5,7 +5,7 @@ plugins {
     java
 }
 
-val mod_version: String by project
+val mod_version = System.getenv("MOD_VERSION") ?: "0.0.0"
 val maven_group: String by project
 val minecraft_version: String by project
 version = mod_version
