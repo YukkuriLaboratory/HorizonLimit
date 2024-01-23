@@ -44,5 +44,5 @@ jobs:
           loaders: fabric
           game-versions: 1.20.2
           files: |
-            build/libs/VirtualPump-${{ steps.tag.outputs.tag }}.jar
-            build/libs/VirtualPump-${{ steps.tag.outputs.tag }}-sources.jar
+            build/libs/horizonlimit-${{ steps.tag.outputs.tag }}.jar
+            build/libs/horizonlimit-${{ steps.tag.outputs.tag }}-sources.jar
