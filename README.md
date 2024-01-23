@@ -25,6 +25,9 @@
       - true: 天空で暮らすプレイヤー
       - false: 地上で暮らすプレイヤー
 
+> このMODはしう氏の企画、「天地分割クラフト」のために制作されました。
+> [![動画](http://img.youtube.com/vi/jok06_fjnqY/0.jpg)](https://www.youtube.com/watch?v=jok06_fjnqY&list=PLAk_kz3mvfCt2QCbjwiKI_TGmYeFqleTm)
+
 # 開発ルール
 
 - コミットメッセージやPRのタイトルは先頭に変更内容と合致する[gitmoji](https://gitmoji.dev)を付けてください(
